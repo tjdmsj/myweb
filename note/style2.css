@@ -1,0 +1,57 @@
+body {
+        background-color: #fcf9d9;
+      margin: 0;
+      padding: 10px; /* 전체 마진 */
+      box-sizing: border-box;
+      font-family: sans-serif;
+       user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0px; /* column 간 간격은 0 (선을 직접 넣을 거라서) */
+    }
+
+    .grid-row {
+      display: contents; /* 자식이 그리드에 직접 배치되도록 */
+    }
+
+    .left-cell {
+      padding: 10px;
+      border-right: 1px solid #d44; /* 중간 세로선 */
+    }
+.left-cell img {
+  width: 150px;
+}
+    .right-cell {
+      padding: 10px;
+    }
+
+    .left-cell, .right-cell {
+      border-bottom: 1px solid #ddd; /* 가로 줄 (선택) */
+    }
+
+   a {
+  color:blue;
+}
+img {
+    width: 300px;
+  max-width: 100%;
+  height: auto;
+}
+a:visited {
+  color: blue;
+}
+
+a:hover {
+  background-color: #ffcafae8;
+  color: blue;
+}
+
+a:active {
+  color: blue;
+}

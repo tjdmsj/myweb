@@ -1,0 +1,40 @@
+*{
+    margin: 0 auto;
+    padding: 0;
+}
+
+
+.ds {
+  perspective: 1000px; /* 3D 효과 */
+  width: 300px;
+  margin: 100px auto;
+position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);  /* 기준점을 중앙으로 */
+}
+
+.screen {
+  width: 300px;
+  height: 200px;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #555;
+}
+
+.top {
+  transform-origin: bottom center;
+  transform: rotateX(180deg); /* 처음엔 접혀 있음 */
+  transition: transform 1s ease;
+}
+
+.bottom {
+  margin-top: -5px; /* 힌지처럼 붙이기 */
+}
+
+.ds.open .top {
+  transform: rotateX(360deg); /* 열리면서 위쪽으로 펴짐 */
+}

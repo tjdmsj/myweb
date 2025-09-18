@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern iPhone UI Frame</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #9ac0e6, #6972c6);
+        font-family: Arial, sans-serif;
+    }
+    .iphone {
+        width: 390px;
+        height: 780px;
+        transform: scale(0.7);
+        background: #111;
+        border-radius: 60px;
+        padding: 12px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.7);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .screen {
+        width: 100%;
+        height: 100%;
+        background: white;
+        border-radius: 48px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+    .status-bar {
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 100%;
+        height: 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 14px;
+        box-sizing: border-box;
+        font-size: 15px;
+        color: #111;
+        z-index: 2;
+    }
+    .time { font-weight: 500; 
+    padding-left: 10px; padding-bottom: 5px;}
+    .status-right { display: flex; gap: 6px; align-items: center; }
+    .icon { width: 20px; height: 20px; padding-right: 10px; padding-bottom: 5px;
+     }
+    .notch {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px;
+        height: 35px;
+        background: #111;
+        border-radius: 20px;
+        z-index: 3;
+    }
+    .frame-wrap { flex: 1; margin-top: 35px; }
+    iframe { width: 100%; height: 100%; border: none; }
+    .home-bar {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 5px;
+        background: #fff;
+        border-radius: 3px;
+        opacity: 0.8;
+        z-index: 2;
+    }
+</style>
+</head>
+<body>
+
+<div class="iphone">
+    <div class="screen">
+        <div class="status-bar">
+            <div class="time" id="time">--:--</div>
+            <div class="status-right">
+                <!-- WiFi 아이콘 -->
+                <svg class="icon" viewBox="1 6 20 20">
+                    <path d="M12 18c.7 0 1.3.6 1.3 1.3S12.7 21 12 21s-1.3-.6-1.3-1.3.6-1.7 1.3-1.7zm0-3c2.2 0 4 1.8 4 4h-1.5c0-1.4-1.1-2.5-2.5-2.5S9.5 17.6 9.5 19H8c0-2.2 1.8-4 4-4zm0-3c3.9 0 7 3.1 7 7h-1.5c0-3-2.5-5.5-5.5-5.5S6.5 16 6.5 19H5c0-3.9 3.1-7 7-7z"/>
+                </svg>
+                <!-- 배터리 아이콘 -->
+                <svg class="icon" viewBox="0 0 24 24">
+                    <rect x="1" y="7" width="18" height="10" rx="2" ry="2" stroke="#111" fill="none" stroke-width="2"/>
+                    <rect x="2" y="8" width="12"height="8" fill="#111"/>
+                    <rect x="19" y="10" width="2" height="6" rx="1" ry="1" fill="#111"/>
+                </svg>
+            </div>
+        </div>
+        <div class="notch"></div>
+        <div class="frame-wrap">
+            <iframe src="/web cabinet/NP-ART/html/index.html"></iframe>
+        </div>
+    </div>
+    <div class="home-bar"></div>
+</div>
+
+<script>
+function updateTime() {
+    // 한국 표준시 (KST, UTC+9)
+    let now = new Date();
+    let options = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Seoul' };
+    let timeString = new Intl.DateTimeFormat('ko-KR', options).format(now);
+    document.getElementById("time").textContent = timeString;
+}
+updateTime();
+setInterval(updateTime, 1000);
+</script>
+
+</body>
+</html>

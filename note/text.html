@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+    <link rel="icon" href="ss.ico" type="image/x-icon">
+
+  <title>text</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+  margin: 10px;
+  padding: 0; font-family: Arial, sans-serif; }
+    .container { display: flex; height: 100vh; }
+    .panel1 { width: 30%; padding: 10px; overflow-y: auto; }
+    .panel2 { width: 70%; padding: 10px; overflow-y: auto; }
+
+    .divider { width: 2px; background-color: red; }
+    .categories { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .category {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .category.active {
+      background-color: #007bff;
+      color: white;
+    }
+    .title {
+      padding: 6px 10px;
+      margin-bottom: 5px;
+      background-color: #f3f3f3;
+      cursor: pointer;
+    }
+    .title:hover {
+      background-color: #e0e0e0;
+    }
+    a {
+    color:white;
+    text-decoration:overline;
+}
+    p {
+        margin: 3px;
+    display: inline;
+    padding: 3pt;
+    height: 20px;
+    font-size: 13pt;
+    line-height: 26pt;
+    }
+    .jpg {
+        background-color: blue;
+    }
+
+    .about{
+        background-color:  gray; 
+;
+    }
+
+    .mark {
+      background-color: red;
+    }
+
+    .open {
+      background-color: black;
+    }
+
+    .sticky-footer {
+  position: fixed;
+  bottom: 10px; /* 하단 마진 */
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 5px 0;
+color: #fbc6f5;
+    font-size: 13px;
+      z-index: 9999;
+       pointer-events: none; /* ⚠️ 마우스 이벤트 무시 설정 */
+
+}
+.sticky-footer p,
+.sticky-footer a {
+  pointer-events: auto; /* 다시 이벤트 허용 */
+}
+.home {
+    color: #f62fdf;
+    text-decoration: underline;
+}
+  </style>
+</head>
+<body>
+    <a href="aboutbookcover.html">
+    <p class="about">page</p>
+</a>
+
+<a href="Openingsentence.html">
+    <p class="open">open</p>
+</a>
+
+<a href="bookcover.html">
+    <p class="jpg">img</p>
+
+    </a>
+<a href="text.html">
+    <p class="mark">text</p>
+</a>
+
+  <div class="container">
+    <!-- 왼쪽 패널 -->
+    <div class="panel1 left-panel">
+      <div class="categories" id="left-categories"></div>
+      <div id="titles"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 오른쪽 패널 -->
+    <div class="panel2 right-panel">
+      <div class="categories" id="right-categories"></div>
+      <div id="content-area"></div>
+    </div>
+
+    
+  </div>
+<footer class="sticky-footer">
+  <p style="font-size: 13px;">©2025 seoeun✶. All rights reserved</p>
+  <a class="home" href="index.html">home</a>
+</footer>
+  <script>
+    const data = [
+
+     {
+      title:"生의 이면, 이승우",
+      leftCategory: "novel",
+      rightCategory: ["copy", "SixWs"],
+      content: {
+      copy: `<p style="font-size:11pt;">
+    그러나 자신과 어울리는 곳은 또 어디란 말인가. 그는 한동안 그런 곳을 찾지 못했다.<br>
+    이 세계가 나의 집이 아니라는 막막함, 그러나 이 세계를 뛰어넘을 수 없다는 절망감. 길은 어디에나 있었지만, 그 어느 것도 나를 위한 길은 아니었다. 집을 갖지 못한 자의 구름 같은 떠돎에 자유라는 이름을 부여하는 것은 한낱 위안일 뿐이다. 나는 내가 이 세계의 변두리를 한없이 배회하기만 할 것이라는 불온한 예감에 일찌감치 사로잡혀 버렸다.<br>
+    사람은 우연히 만났다가 뜻밖으로 헤어진다. 그것이 인생이다.<br>
+    모든 과거는 기억된 과거일 뿐이며, 모든 기억은 검열된, 또는 취사선택된 기억일 뿐이다. 시간은 독하고, 나의 자아는 너무 많은 층으로 둘러싸인 거대한 - 작은 우주다. 층마다 진실이 있고, 그 진실은 그 층에서만 진실이다. 그 모든 층을 관통하는 작살과 같은 하나의 진실은 없을까?<br>
+    나는 내 자아를 형성하고 있는, 수많은, 서로 대립하는 층들의 싸움을 견딜 수가 없는 것이다.<br>
+    생각이 많은 것은 무언가가 모자라기 때문이다. 그 모자라는 부분을 보충하려는 욕망이 많은 생각을 만든다.<br>
+    아, 적은 아무 데도 없는데 고통은 도처에 널려 있다.
+    <br>
+    그 시절, 나는 아주 간절하게 동지를 찾고 있었다. 누구에게서도 동질성을 발견할 수가 없었기 때문이었다. 내가 특별했기 때문이라는 말을 하려는 것이 아니다. 오히려 그 반대다. 사람들은 나와 너무나 특별하게 달랐다.
+    <br>
+    내가 원하는 것은 나와 같은 세계에 살고 있는 사람을 만나는 일이었다. 나는 그 미지의 사람을 향해 동지라고 불렀다. 나는 나와 원형질이 같은 한 사람의 동질을 참으로 간절하게 만나고 싶었다. 저들의 세상은 아무래도 상관없었다. 
+    <br> 나는 도스토예프스키로부터 다음과 같은 문장을 읽었다.'세계가 파멸하는 것과 내가 차를 마시지 못하게 되는 것과 어느 쪽이 큰일인가! 설사 온 세계가 파멸해 버린다고 해도 상관없지만, 나는 차를 마시고 싶을 때는 언제나 마셔야 한다.' 도스토예프스키가 파멸되는 하나의 크고 피상적인 외부의 세계와 차를 마시는 또 하나의 작고 깊은 내면의 세계를 구별하고 있는 것이라면, 그는 옳다, 하고 나는 그 글이 적힌 페이지 위에 붉은 볼펜으로 적었다.</p>`
+
+    ,
+    SixWs: `<p style="font-size:11pt; font-weight:bold;">1. 그를 이해하기 위하여</p>
+      <table style="font-size:11pt; border-collapse: collapse; width: 100%;" border="1">
+        <thead>
+          <tr>
+            <th>5W1H</th>
+            <th>contents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>누가 (Who)</td>
+            <td>나, 박부길</td>
+          </tr>
+          <tr>
+            <td>언제 (When)</td>
+            <td>1980년대 중반</td>
+          </tr>
+          <tr>
+            <td>어디서 (Where)</td>
+            <td>지방 소도시</td>
+          </tr>
+          <tr>
+            <td>무엇을 (What)</td>
+            <td>'나'는 잘 모르는 사람인 소설가 '박부길'에 대한 이야기를 책으로 쓰라고 편집자로부터 요청받았다.</td>
+          </tr>
+          <tr>
+            <td>왜 (Why)</td>
+            <td>종교적 신념과 인간적인 결핍의 갈등</td>
+          </tr>
+          <tr>
+            <td>어떻게 (How)</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    `
+  }
+}
+
+
+,
+      {
+        title: "이 모든 괴로움을 또 다시, 전혜린",
+        leftCategory: "essay",
+        rightCategory: ["copy", "research"],
+        content: {
+          copy: `<p style="font-size:11pt;">
+            배는 다소 고프지만 나는 즐겁다. 오늘은 가을 하늘이 멋이 있었고, 나의 머리는 니체와 루 생각으로 가득 찼으니까⋯⋯. 나의 텅 빈, 추운 방에서 나는 벌레처럼 틀어박혀서 나의 꿈을 기르고 싶다. 닫힌 문과 마음속에 끝없이 펼쳐 가는 환상의 세계의 크기와! 니체, 루, 릴케, 튜린, 질스 마리아⋯⋯.
+        <br><br> 무지개나 눈뿐 아니라, 도대체 자연이란 늘 같으면서도 틀리고 싫증이 나지 않는다. 특히 괴롭거나 고독에 의해서 모든 것을 좀더 깊이 보게 된 사람, 자기를 응시하게 된 사람, 그리고 죽음을 멀리 느끼지 않는 사람에게는 자연이란 별다른 감동과 정다움을 느끼게 해준다.
+        <br><br> 날은 저물고/ 별이 돋았다./ 오늘도 아니 오는 이는/ 내내 멀리 있으리.
+        <br><br> 엄격한 교육의 유익함
+        <br><br> 모든 생의 영육적인 제복, 이게 정말 \'생\'에 대해서는 너무도 많이 논의되고 있다. 여전히 마치 그것이 자명한 것이 아니고 그 반대인 것처럼⋯⋯. 그러나 바로 그 속에 인간을 매혹하고 끌어당기는 그 무엇이 있다. 나도 언젠가는 무엇이 생에 있어 중요한 지를 알아내고 싶다.——그것이 완벽하게 자명한 어떤 것인지, 혹은 무섭게 복잡한 어떤 것인지를.
+        <br><br> 다른 사람들의 잔인함과 추잡함, 비열함이 나를 질식시킨다.<br><br>> 무엇인가에 기뻐할 수 있다는 것 —— 축제에, 눈에, 꽃 한 송이에 ⋯⋯. 그 무엇에든지. 그렇지 않으면 잿빛 일상 생활 속에서 우리는 몹시도 가난하고 꿈이 메말라 버릴 것이다.
+        <br><br> 세상의 어느 곳이든 그를 위한 사랑과 기도가 있는 곳이면⋯⋯. 그것은 인간에게 내면의 평안과 외면의 자신을 준다. 사랑 없이 자라고 돌아갈 아무 곳도 가지고 있지 않으면 사람은 괴팍스레 고독해진다. 그러면 아주 쉽사리 당황하게 되고, 기분이 극에서 극으로 달리기만 하여 결코 침착과 자신을 찾지 못하게 된다.
+        <br><br> 인생이란 우리가 전 심장으로 사랑하는 그 무엇으로써 채워져야만 한다. 그렇지 않으면 인생은 공허하고 불만족한 것이 될 것이다.
+        <br><br> 아, 나는 인간을 매우 잘 이해할 수 있겠다. 그들은 돌로 머리를 쳐서 자살을 하지 않도록, 어떠한 미혹(Jaushung)이 무조건(unbedingt) 필요하다. 종교와, 술과 사랑과, 혹은 일종의 자기 찬미(Selbstverherrlichung)가, 생이 살아갈 가치가 있는 것처럼 자신을 미혹시킬 수 있기 위하여 필요한 것이다.
+        <br> 파스칼(Pascal)도 불안을 가졌었다. '무한한 공간의 영원한 침묵이 나를 불안에 떨게 한다.' 그렇다. 이 침묵이 사람을 미치게 만든다. 미래 앞에서의 이 무지. 무엇 때문에, 정말 무엇 때문에 우리는 태어난 것일까? '하나의 식물이 자라듯 맹목적인 우연(blinder Zufall)'이외에 어떤 이유가 있을까? 그렇다면 왜 우리는 보다 높은 원인을 의식하고 있을까? 왜 우리는 적어도 죽어야만 한다는 사실을 알고 있는 것일까?
+        <br><br> 사람은 사고하기 싫어한다. 단지 살고 싶어할 뿐이다. 그가 살고 있다는 육체적 확실성(Korperliche Gewibheit)만을 소유하고 싶어한다.
+        <br><br> 내가 미워하는 사람은 지껄이기 위해서 지껄이는 사람, 천박하고 실속이 없는 사람, 철두철미하게 판에 박은 사고만을 가진 사람, 우쭐하고 유치하며 책임감이 없는 사람, 굴욕 앞에 치욕을 느끼지 못하는 사람, 간단히 말해서 정신의 품격이 없는 사람이다.
+        <br><br> 개성이 없는 사람은 정말 하나의 캐리커쳐(karikatur)이다. 그가 행하고 말하는 전부가 우스꽝스런 냄새를 풍긴다. 그 자신만이 그걸 모르고 있는 것이다. 성격이 없는 사람, 규율이, 이상이, 사물에 대한 직관이 없는 사람을 나는 얼마나 증오하고 경멸하는지.
+        <br><br> 나는 모든 것을 포기하고 생에 종말을 고한다는 것에 그렇게도 자주 희열을 느낀다. 나는 내 자신과 온갖 것에 계속해서 몰두하고픈 마음은 없다. 너무도 지치고 지쳐서 진절머리가 난다. 많은 곳에 밑줄이 그어진 내 책을 누군가가 읽는다는 것을 좋아하지 않는다. 특히 그 누군가 정신적인 욕구가 없는 무미 건조한 인간일 경우에⋯⋯. 나는 분명 까다롭다. 나에게완전히 낯선 사람이 내 책을 샅샅이 뒤지는 것이 싫다.
+
+        <br><br> 단 한 번인 이 삶에서 우리는 우리의존재의 맨 끝을, 맨 속을 알아야만 하는 것이다. 아는 데까지 알아보고 그 과정에서 죽는 것 —— 애써서 노력하다 쓰러지는 것, 이것이 삶의 참 모습이다. 그 이외의 지식이나 생활이란 다 부차적인 것에 불과하다. 우리에게 가장 긴급하고 근본적인 유일한 생의 테마는 우리의 현존재의 비밀과 유한성의 고뇌의 극복을 탐지하는 것뿐이다. 정말로 쇼펜하우어의 말처럼 인간과 인간 사이의 올바른 관계는 괴로움을 같이하는 데서 오는 이해인 것 같다.
+
+        <br><br> 죽음을 씨로서 속에 지닌 과실로의 삶을, 우연적, 일회적으로 주어져 있는 우리들 누구나의 공통 운명이고 괴로움인 죽음을 갖고 사고의 거리에 놓고 거기에서 파생한 모든 허무감을 나누어 느끼고 동정하는 것 —— 이것은 약함은 아닌 것 같다. 이 공감에서 우리는 서로가 서로의 실존에의 돌입을 용이케 하도록 도와주고 계기가 되어 줄 수 있는 것이 아닐까?
+
+        <br><br> 나와 세계와의 관계는 필연적으로 '갈등 속의 존재'인 것을 생각할 때, 그리고 나와 남의 의식간엔 대립이 있음을 생각할 때 정말로 오늘 같은 쾌감으로만 점묘된 하루가 귀중히 느껴지는 것이다. 담담하고 따사한, 정답고 건강한 한 해가 되었으면!
+
+        <br><br> 무언지 즐거운 기대가 예감되는 즐거운 아침이다. 무겁게 잿빛으로 꽉 잠긴 하늘조차 유쾌한 강설의 약속으로밖에 안 보인다.
+
+        <br><br> 전에는 순수하고 소박해 보이기까지 했던 그애가 저렇게 속화
+
+        <br><br>
+
+        <br><br>
+
+        <br><br>
+
+            </p>`,
+          research: `<a href="https://blog.naver.com/nenia21/130014209758"><img src="http://newsimg.hankookilbo.com/2017/06/30/201706300485733931_1.jpg" style="width: 200px; height: auto;"></a> 
+      <a href="https://qq9447.tistory.com/1391"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FoYTY0%2FbtqO0fPodnI%2FPhsIfuDyqkvhNA9sB5eO7k%2Fimg.jpg" style="width: 200px; height: auto;"></a> 
+      <a href="https://www.incheonilbo.com/news/articleView.html?idxno=906883"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdEgdZJ%2FbtsCWLXWNid%2FKb1JIf4N5A8PLOrMQuwuwk%2Fimg.jpg" style="width: 200px; height: auto;"></a>
+      <br>
+      
+        <br> <p style="background-color:#9cf15b; font-size:10pt;">체험(Erlebnis)</p>: 일상생활 경험보다 의식에 남으며, 더 크게 느껴지는 경험들이다. 말 그대로 우리가 특별히 '경험'하는 경험이다.
+        <br><br>
+        한국에서의 직업이란 생활의 쾌적은커녕 <p style="background-color:#9cf15b; font-size:10pt;">필요한 것(das Notwendige)</p>도 해결해 줄 수 없을 지경이니 더욱 기가막힌다.
+<br>
+	> "das Notwendige"는 독일어로, 간단히 말하면 "필수적인 것", "불가피한 것", 또는 "불가결한 것"을 의미한다.
+	독일 철학에서 이 말이 자주 쓰인다. 
+	예:<br>
+	- 헤겔: 필연성(die Notwendigkeit)은 이성적 세계 질서의 일부로 자주 언급됨.<br>
+	    
+	- 칸트: 어떤 판단이 _a priori_로 참이기 위해서는 필연적이어야 한다고 설명.<br>
+	    
+	- 하이데거나 니체: 존재와 삶에 대해 "필연적인 것"과 "우연적인 것"을 구분함<br>
+        </p>
+      `
+        }
+      },
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      {
+        title: "그리고 아무말도 하지 않았다, 전혜린",
+        leftCategory: "essay",
+        rightCategory: ["copy", "research"],
+        content: {
+          copy: `<p style="font-size:11pt;">
+            논리의 수미(Konsequentes Leben)가 일관된 생을 우리는 희구한다. 
+            그러나 생의 테제와 안티 테제는 논리에서처럼 당연한 일의적 단계를 밟지 않는다.
+            그러기에는 생은 너무나 혼돈적이고 어두운 밤의 측면과 꿈과 동경 등으로 가득 차 있다.
+            <br> 의식과 무의식이 일체가 되고 그와 객체 관계가 지양되는 투명한 순간은 우리에게 그렇게 자주 주어지지 않는다.</p>`
+        }
+      },
+
+
+
+
+     
+   
+    ];
+
+    
+
+    const leftCategories = ["전체", ...new Set(data.map(d => d.leftCategory))];
+    const rightCategories = ["전체", ...new Set(data.flatMap(d => d.rightCategory))];
+
+    const leftCategoryContainer = document.getElementById("left-categories");
+    const rightCategoryContainer = document.getElementById("right-categories");
+    const titlesContainer = document.getElementById("titles");
+    const contentArea = document.getElementById("content-area");
+
+    let selectedLeftCategory = "전체";
+    let selectedRightCategory = "전체";
+
+    function renderLeftCategories() {
+      leftCategoryContainer.innerHTML = "";
+      leftCategories.forEach(cat => {
+        const btn = document.createElement("div");
+        btn.className = "category" + (cat === selectedLeftCategory ? " active" : "");
+        btn.textContent = cat;
+        btn.onclick = () => {
+          selectedLeftCategory = cat;
+          renderLeftCategories();
+          renderTitles();
+          // 오른쪽 초기화 (디폴트 전체로)
+          selectedRightCategory = "전체";
+          renderRightCategories();
+          contentArea.innerHTML = "";
+        };
+        leftCategoryContainer.appendChild(btn);
+      });
+    }
+
+    function renderTitles() {
+      titlesContainer.innerHTML = "";
+      const filtered = selectedLeftCategory === "전체"
+        ? data
+        : data.filter(d => d.leftCategory === selectedLeftCategory);
+      filtered.forEach(d => {
+        const div = document.createElement("div");
+        div.className = "title";
+        div.textContent = d.title;
+        div.onclick = () => {
+          renderRightCategories(d);
+          selectedRightCategory = "전체";
+          renderContent(d);
+        };
+        titlesContainer.appendChild(div);
+      });
+    }
+
+    function renderRightCategories(selectedData = null) {
+      rightCategoryContainer.innerHTML = "";
+      if (!selectedData) return;
+
+      const cats = ["전체", ...selectedData.rightCategory];
+      cats.forEach(cat => {
+        const btn = document.createElement("div");
+        btn.className = "category" + (cat === selectedRightCategory ? " active" : "");
+        btn.textContent = cat;
+        btn.onclick = () => {
+          selectedRightCategory = cat;
+          renderRightCategories(selectedData);
+          renderContent(selectedData);
+        };
+        rightCategoryContainer.appendChild(btn);
+      });
+    }
+
+    function renderContent(d) {
+      if (selectedRightCategory === "전체") {
+        contentArea.innerHTML = d.rightCategory.map(cat => d.content[cat]).join("<hr>");
+      } else {
+        contentArea.innerHTML = d.content[selectedRightCategory] || "<p>내용 없음</p>";
+      }
+    }
+
+    // 초기 렌더링
+    renderLeftCategories();
+    renderTitles();
+  </script>
+</body>
+</html>

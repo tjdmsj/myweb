@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />  <!-- 문서 문자 인코딩 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  <!-- 반응형 웹뷰 설정 -->
+  <title>단어 검색 페이지</title>
+
+  <style>
+    /* 전체 페이지 기본 스타일 */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f2fcc8;
+    }
+    #centerImage {
+  position: fixed;
+  opacity: 0.5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90vw;
+  max-height: 90vh;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+    /* 떠다니는 단어들이 담길 컨테이너 위치 및 크기 설정 */
+    #floating-container {
+      position: relative;            /* 자식 요소 절대 위치 기준 */
+      width: 100%;                   /* 가로 100% */
+      height: 100vh;                 /* 화면 높이 100% */
+    }
+
+    /* 단어+이미지를 묶는 래퍼 (절대 위치) */
+    .floating-wrapper {
+      position: absolute;
+      white-space: nowrap;
+      user-select: none;
+      z-index: 1;
+      animation: float 10s linear infinite;
+      cursor: default;
+    }
+
+    /* 떠다니는 단어 스타일 */
+    .floating-word {
+  font-size: 1.2rem;
+  vertical-align: middle;
+  user-select: none;
+  cursor: pointer; /* 클릭 가능하게 커서 스타일 추가 */
+}
+
+    /* 단어 선택 시 배경 제거 */
+    .floating-word::selection {
+      background: none;
+    }
+
+    /* 단어 옆에 나오는 아이콘 이미지 */
+    .floating-img {
+      width: 24px;
+      height: 24px;
+      margin-left: 6px;
+      vertical-align: middle;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* 떠다니는 애니메이션 정의 */
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-30px); /* 30px 위로 이동 */
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* 검색창 컨테이너 위치 및 중앙 정렬 */
+    .search-container {
+      position: absolute;            /* 절대 위치 */
+      bottom: 10%;                  /* 화면 아래에서 10% 위 */
+      width: 100%;                   /* 가로 100% */
+      text-align: center;            /* 가운데 정렬 */
+      z-index: 10;                  /* 항상 위에 표시 */
+    }
+
+    /* 검색 입력창 스타일 */
+    input[type="text"] {
+      padding: 10px;                 /* 안쪽 여백 */
+      font-size: 1rem;               /* 글자 크기 */
+      width: 60%;                   /* 가로 60% */
+      max-width: 400px;             /* 최대 너비 400px */
+    }
+
+    /* 검색 버튼 스타일 */
+    button {
+      padding: 10px 20px;            /* 안쪽 여백 (위/아래 10px, 좌/우 20px) */
+      font-size: 1rem;               /* 글자 크기 */
+      margin-left: 10px;             /* 왼쪽 여백 */
+      cursor: pointer;               /* 마우스 포인터 변경 */
+    }
+
+    /* 모바일 대응: 화면 너비 768px 이하에서 폰트 크기 및 패딩 줄임 */
+    @media (max-width: 768px) {
+      input[type="text"],
+      button {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+      }
+      .floating-word {
+        font-size: 1rem;
+      }
+    }
+
+    /* 더 작은 화면 (600px 이하) 에서도 글자 크기 축소 */
+    @media (max-width: 600px) {
+      .floating-word {
+        font-size: 1rem;
+      }
+    }
+    
+    /* 마우스 아이콘 */
+    .icon {
+      position: fixed;
+      pointer-events: none;
+      user-select: none;
+      font-size: 24px;
+      opacity: 1;
+      transform: translate(-50%, -50%);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+      z-index: 9999;
+    }
+
+    .icon.fade-out {
+      opacity: 0;
+      transform: translate(-50%, -80%);
+    }
+  </style>
+</head>
+
+<body>
+    <img id="centerImage" src="https://d2w9rnfcy7mm78.cloudfront.net/36870578/original_fbebfdfed77084a202816a5cc9d61fd3.png?1747844444?bc=0" alt="중앙 이미지" />
+<!--파비콘-->
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- 떠다니는 단어들을 표시할 영역 -->
+  <div id="floating-container"></div>
+
+  <!-- 검색창 영역 -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="단어를 입력하세요..." />
+    <button onclick="search()">검색</button>
+  </div>
+
+  <script>
+    // 떠다니는 단어 및 이미지 데이터 배열
+    const words = [
+      { text: "", image: "https://d2w9rnfcy7mm78.cloudfront.net/35045495/original_25f72d5c8c6c9b5743f127877c7aa5ff.png" },
+      { text: "사과", image: "apple.png",link:"/webarchive/appleslide.html"},
+     // { text: "차를 마시자", image: "", link:"차를 마시자.html"},
+     // { text: "종합장", image: "", link:"종합장.html" },
+      //{ text: "object", image: "" },
+      { text: "거북이", image: "",link:"/webarchive/backpack.html" },
+      { text: "고양이", image: "", link:"/webarchive/kittylover.html" },
+      { text: "커피", image: "", link:"/webarchive/coffee/coffee.html" },
+      { text: "코딩", image: "", link:"/webarchive/coding/coding.html" }
+      //{ text: "메모장", image: "", link:"메모장2.html" },
+      //{ text: "아카이브", image: "" }
+    ];
+
+    // 떠다니는 단어 위치 기록 배열 (중복 배치 방지용)
+    const positions = [];
+
+    // 새 단어가 기존 단어들과 너무 가까이 붙었는지 체크하는 함수
+    function isOverlapping(newTop, newLeft) {
+      return positions.some(pos => {
+        const verticalGap = Math.abs(pos.top - newTop);
+        const horizontalGap = Math.abs(pos.left - newLeft);
+        // 세로 8%, 가로 12% 이내 겹치면 true (조금 더 엄격히)
+        return verticalGap < 8 && horizontalGap < 12;
+      });
+    }
+
+    const container = document.getElementById('floating-container');
+
+    // 각 단어를 화면에 추가하는 반복문
+    words.forEach(({ text, image,link }) => {
+      let top, left, tries = 0;
+      // 중복 위치 회피하면서 위치 랜덤 설정 (최대 100회 시도)
+      do {
+        top = Math.random() * 40 + 10;  // 10% ~ 50% 위치 범위
+        left = Math.random() * 80 + 5;  // 5% ~ 85% 위치 범위
+        tries++;
+      } while (isOverlapping(top, left) && tries < 100);
+
+      // 위치 기록
+      positions.push({ top, left });
+
+      // 단어+이미지 래퍼 생성
+      const wrapper = document.createElement('div');
+      wrapper.className = 'floating-wrapper';
+      wrapper.style.top = top + '%';
+      wrapper.style.left = left + '%';
+
+      // 단어 텍스트 생성
+      const span = document.createElement('span');
+      span.className = 'floating-word';
+      span.innerText = text;
+      wrapper.appendChild(span);
+
+      // 이미지가 있을 경우 단어 옆에 이미지 추가
+      if (image) {
+        const img = document.createElement('img');
+        img.src = image;
+        img.alt = text;
+        img.className = 'floating-img';
+        wrapper.appendChild(img);
+      }
+
+      container.appendChild(wrapper);
+    });
+
+    
+
+    // 검색 기능: 입력 단어가 배열에 있으면 해당 페이지로 이동, 없으면 경고창 표시
+    function search() {
+  const input = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (input === '') {
+    alert('검색어를 입력하세요.');
+    return;
+  }
+
+  // 입력값에 해당하는 단어를 찾기
+  const match = words.find(w => w.text.toLowerCase() === input);
+
+  if (match && match.link) {
+    parent.document.querySelector('iframe[name="rightFrame"]').src = match.link;
+  // 지정된 링크로 이동
+  } else {
+    alert('해당 단어에 해당하는 페이지가 없습니다.');
+  }
+}
+
+
+
+    // 엔터키 입력시 검색 함수 호출 이벤트 연결
+    document.getElementById('searchInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        search();
+      }
+    });
+
+    // 페이지에 다시 돌아왔을 때 검색창 초기화
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    document.getElementById('searchInput').value = '';
+  }
+});
+
+    // 마우스 아이콘
+    const icons = ['⭐', '💌', '🍓', '🐬', '🌼', '🌈', '🎀', '🍭', '🍀'];
+
+    function createIcon(x, y) {
+      const icon = document.createElement('div');
+      icon.className = 'icon';
+      icon.style.left = `${x}px`;
+      icon.style.top = `${y}px`;
+
+      const randomIndex = Math.floor(Math.random() * icons.length);
+      icon.innerText = icons[randomIndex];
+
+      document.body.appendChild(icon);
+
+      setTimeout(() => {
+        icon.classList.add('fade-out');
+      },500);
+
+      setTimeout(() => {
+        icon.remove();
+      }, 2000);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      createIcon(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      if (touch) {
+        createIcon(touch.clientX, touch.clientY);
+      }
+    });
+  </script>
+  
+</body>
+</html>

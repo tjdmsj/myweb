@@ -1,0 +1,137 @@
+   
+ a {
+  color:blue;
+}
+
+a:visited {
+  color: blue;
+}
+
+a:hover {
+  background-color: #ffcafae8;
+  color: blue;
+}
+
+a:active {
+  color: blue;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    width: 300px;
+}
+
+.left {
+  position: absolute;
+  width: 400px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  border-right: 1px solid black;
+}
+
+.center {
+  position: absolute;
+  width: 200px;
+  height: 100%;
+  top: 0;
+  left: 400px; /* side-left 옆으로 */
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border-right: 1px solid black;
+  list-style: none;
+}
+
+.right {
+  position: absolute;
+  top: 0;
+  left: calc(400px + 200px); /* side-left + left */
+  width: calc(100% - 600px); /* 전체에서 앞부분 제외 */
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background-color: #fff;
+}
+
+
+li::before {
+  content: "✴︎";
+  margin-right: 8px;
+}
+
+
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.content {
+    display: none;
+    height: 100%;
+    overflow-y:auto;
+    transition: background-color 0.4s ease;
+}
+
+.content:target {
+    display: block;
+}
+
+
+
+#today-date {
+    margin-top: 20px;
+    font-size: 14px;
+    color: gray;
+    position: absolute;
+    bottom: 20px;
+}
+@media (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 화면 전체 높이 기준으로 나눔 */
+  }
+
+  .left, .center, .right {
+    position: static !important;
+    width: 100% !important;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  /* 원하는 비율로 높이 지정 (예시) */
+  .left {
+    height: 30%;
+  }
+
+  .center {
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .right {
+    height: 45%;
+  }
+
+  iframe {
+    height: 100% !important;
+  }
+
+  #today-date {
+    position: static;
+    margin: 20px 0;
+  }
+}

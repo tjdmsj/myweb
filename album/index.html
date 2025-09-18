@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>album</title>
+    <style>
+      *{margin: 0;
+      padding: 0;}
+        body{
+            background-color: #090909;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    
+   <video id="bgVideo" loop playsinline style="width:70%; height:auto;" >
+  <source src="claudia.MP4" type="video/mp4" >
+</video>
+
+<script>
+ const video = document.getElementById("bgVideo");
+  video.muted = true; // 기본 무음
+
+  // iframe이 처음 로드될 때 자동 재생
+  window.addEventListener("load", () => {
+    video.play();
+  });
+
+  // 부모에서 신호 받으면 처리
+  window.addEventListener("message", (event) => {
+    if (event.data === "show") {
+      video.currentTime = 0;   // 항상 처음부터 시작
+      video.muted = false;
+      video.play();
+    } else if (event.data === "hide") {
+      video.pause();
+      video.currentTime = 0;   // 다시 들어올 때 처음부터 재생되도록
+      video.muted = true;
+    }
+  });
+    video.volume = 0.3; // 30% 볼륨
+</script>
+</body>
+</html>

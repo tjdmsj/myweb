@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie Random Picker</title>
+<style>
+
+    @font-face {
+    font-family: 'LotteriaChwapttaenggyeo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIACHAB.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+
+
+@font-face {
+    font-family: 'ClimateCrisisKorean';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/ClimateCrisisKR-1990.woff2') format('woff2');
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ClimateCrisisKorean';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/ClimateCrisisKR-1979.woff2') format('woff2');
+    font-weight: 900;
+    font-display: swap;
+}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #wrap {
+        width: 100%;
+        display: flex;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+    }
+
+    #random {
+        width: 50%;
+        height: 100%;
+        background-color: #edc2c2;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .header {
+        font-family: 'ClimateCrisisKorean';
+        font-weight: 800;
+        font-size: 75px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    #button {
+        padding: 10px 20px;
+        font-size: 25px;
+        background: linear-gradient(to bottom, #8e6895, #afbebf);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px #922b21;
+        transition: all 0.1s ease-in-out;
+        align-items: center;
+        justify-content: center;
+
+
+    }
+
+    #button:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px #922b21;
+    }
+
+    #name {
+        font-family: 'ClimateCrisisKorean';
+        font-weight: 800;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 75px;
+        font-weight: bold;
+        color: #b2b0b0;
+    }
+
+    #name:hover{
+        color: #000;
+    }
+
+
+    #right {
+        width: 50%;
+        height: 100%;
+        background-color: #a95959;
+                color: white;
+
+    }
+
+    #movielist{
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2열 */
+        grid-auto-rows: 25px;          /* 각 칸 높이 */
+        overflow: hidden;              /* 돌림판 효과 줄 때 필요 */
+        color: white;
+    }
+    
+
+    .movie-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+</style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="random">
+            <header class="header">The movie</header>
+            <button id="button">RANDOM</button>
+            <div id="name"></div>
+        </div>
+        <div id="right">
+            <header class="header">I WATCHED</header>
+            <div id="movielist"></div>
+        </div>
+    </div>
+
+    <script>
+        const movies = [
+            "Inception","Interstellar","The Dark Knight","Memento",
+            "Parasite","Oldboy","Whiplash","La La Land",
+            "Her","The Matrix","Fight Club","Se7en"
+        ];
+
+        const movielist = document.getElementById("movielist");
+        const nameBox = document.getElementById("name");
+        const button = document.getElementById("button");
+
+        // 리스트 채우기
+        movies.forEach(movie => {
+            const div = document.createElement("div");
+            div.className = "movie-item";
+            div.textContent = movie;
+            movielist.appendChild(div);
+        });
+
+        // 랜덤 선택 (룰렛 효과)
+        button.addEventListener("click", () => {
+            let index = 0;
+            let count = 0;
+            const items = document.querySelectorAll(".movie-item");
+
+            const interval = setInterval(() => {
+                // 모든 아이템 배경 초기화
+                items.forEach(item => item.style.background = "");
+                // 현재 index 하이라이트
+                items[index].style.background = "rgba(255,255,255,0.5)";
+
+                index = (index + 1) % items.length;
+                count++;
+
+                // 점점 속도 줄이기
+                if (count > 20 + Math.random() * 20) {
+                    clearInterval(interval);
+                    const chosen = items[(index-1+items.length)%items.length];
+                    chosen.style.background = "yellow";
+                    chosen.style.color = "black";
+                    nameBox.textContent = `"${chosen.textContent}"`;
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

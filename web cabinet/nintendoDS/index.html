@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>닌텐도ds</title>
+</head>
+<body>
+<div class="ds">
+  <div class="screen top">위 화면</div>
+  <div class="hinge"></div>
+  <div class="screen bottom">아래 화면</div>
+</div>
+<script>
+    const ds = document.querySelector('.ds');
+ds.addEventListener('click', () => {
+  ds.classList.toggle('open');
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>글 작성/수정</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    textarea { width: 100%; height: 150px; }
+    input[type="text"], input[type="file"] { width: 100%; margin-bottom: 10px; }
+    .preview img, .preview video { max-width: 100%; margin: 10px 0; display: block; }
+  </style>
+</head>
+<body>
+
+<h2>글 작성 또는 수정</h2>
+
+<input type="text" id="title" placeholder="제목" />
+<textarea id="content" placeholder="내용 (텍스트)"></textarea>
+
+<h3>이미지/영상 첨부</h3>
+<input type="file" id="fileInput" multiple accept="image/*,video/*" />
+<div class="preview" id="preview"></div>
+
+<br/>
+<button onclick="savePost()">저장</button>
+<button onclick="goBack()">← 돌아가기</button>
+
+<script>
+  const ADMIN_PASSWORD = "mypassword123";
+  const titleInput = document.getElementById('title');
+  const contentInput = document.getElementById('content');
+  const fileInput = document.getElementById('fileInput');
+  const preview = document.getElementById('preview');
+
+  const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+  const editingPostId = localStorage.getItem('editingPostId');
+  let attachments = [];
+
+  // 접속 보안: 비밀번호 확인
+  const inputPassword = prompt("비밀번호를 입력하세요:");
+  if (inputPassword !== ADMIN_PASSWORD) {
+    alert("비밀번호가 틀렸습니다.");
+    window.location.href = "글작성.html";
+  }
+
+  // 수정 모드
+  if (editingPostId !== null) {
+    const post = posts.find(p => p.id == editingPostId);
+    if (post) {
+      titleInput.value = post.title;
+      contentInput.value = post.content;
+      attachments = post.attachments || [];
+      attachments.forEach(data => showPreview(data));
+    }
+  }
+
+  fileInput.addEventListener('change', () => {
+    const files = Array.from(fileInput.files);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64 = e.target.result;
+        attachments.push(base64);
+        showPreview(base64);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  function showPreview(data) {
+    const element = document.createElement(data.startsWith("data:video") ? "video" : "img");
+    element.src = data;
+    if (element.tagName === "VIDEO") element.controls = true;
+    preview.appendChild(element);
+  }
+
+  function savePost() {
+    const title = titleInput.value.trim();
+    const content = contentInput.value.trim();
+    if (!title || !content) {
+      alert("제목과 내용을 입력하세요.");
+      return;
+    }
+
+    if (editingPostId !== null) {
+      const index = posts.findIndex(p => p.id == editingPostId);
+      if (index >= 0) {
+        posts[index] = {
+          id: posts[index].id,
+          title,
+          content,
+          attachments
+        };
+      }
+      localStorage.removeItem('editingPostId');
+    } else {
+      const newPost = {
+        id: Date.now(),
+        title,
+        content,
+        attachments
+      };
+      posts.push(newPost);
+    }
+
+    localStorage.setItem('posts', JSON.stringify(posts));
+    alert("저장되었습니다!");
+    window.location.href = "글작성.html";
+  }
+
+  function goBack() {
+    window.location.href = "글작성.html";
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>iPod Web Player</title>
+<style>
+body {
+    background-image: url('back.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+.ipod {
+    width: 240px;
+    height: 400px;
+    background: radial-gradient(circle, #ffffff 0%, #888888 100%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+.screen {
+    width: 100%;
+    height: 60%;
+    background: #dfe0dc9c;
+    color: #3e3e3e;
+    box-shadow: inset 0 0 10px #000000e6;
+    border-radius: 5px;
+    font-size: 11px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    font-size: 10px;
+    border-bottom: 1px solid #3e3e3e;
+    position: relative;
+}
+.topcenter {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+}
+#display { flex: 1; overflow: hidden; position: relative; }
+.screen ul {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+}
+.screen li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 8px;
+    width: 100%;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.screen li.active {
+    background: rgb(163, 186, 193);
+    color: #111;
+}
+.wheel {
+    width: 200px;
+    height: 200px;
+    background: #ddd;
+    border-radius: 50%;
+    position: relative;
+    margin-top: 10px;
+}
+.button {
+    position: absolute;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+.top { top: 10px; left: 50%; transform: translateX(-50%); }
+.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.left { left: 10px; top: 50%; transform: translateY(-50%); }
+.right { right: 10px; top: 50%; transform: translateY(-50%); }
+.center {
+    width: 60px;
+    height: 60px;
+    background: #bbb;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.play-container {
+    display: flex;
+    gap: 5px;
+}
+.play-container img { width: 80px; height: 80px; object-fit: cover; }
+.play-container .info { flex: 1; font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="ipod">
+    <div class="screen">
+        <div class="topbar">
+            <span id="clock"></span>
+            <span class="topcenter">iPod</span>
+            <span class="battery">🔋</span>
+        </div>
+        <div id="display"></div>
+    </div>
+    <div class="wheel">
+        <div class="button top" id="btn-menu">MENU</div>
+        <div class="button left" id="btn-left">|◀◀</div>
+        <div class="button right" id="btn-right">▶▶|</div>
+        <div class="button bottom" id="btn-play">▶||</div>
+        <div class="button center" id="btn-center"></div>
+    </div>
+</div>
+
+<!-- YouTube Player (숨김) -->
+<div id="youtube-player"></div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+const display = document.getElementById("display");
+const clockEl = document.getElementById("clock");
+
+// 시계 갱신
+function updateClock() {
+    const d = new Date();
+    const h = d.getHours().toString().padStart(2,'0');
+    const m = d.getMinutes().toString().padStart(2,'0');
+    clockEl.textContent = `${h}:${m}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// 곡 데이터
+const songs = [
+    { videoId:"ScMzIvxBSi4", image:"https://placekitten.com/200/200", info:"곡A - 가수A", month:"1월", genre:"band" },
+    { videoId:"ysz5S6PUM-U", image:"https://placebear.com/200/200", info:"곡B - 가수B", month:"2월", genre:"k-pop" },
+    { videoId:"M7lc1UVf-VE", image:"https://placekitten.com/201/201", info:"곡C - 가수C", month:"1월", genre:"solo" },
+    { videoId:"E7wJTI-1dvQ", image:"https://placebear.com/201/201", info:"곡D - 가수D", month:"3월", genre:"balad" }
+];
+
+// User Info
+const userInfo = {
+    "User Name":"seoeun",
+    "Created On":"2025-09-16",
+    "Last Login":"2025-09-16",
+    "Email":"tjdmsj@gmail.com",
+};
+
+// 메뉴 구조
+const menuTree = {
+    root:["Playlist","Setting"],
+    Playlist:["Month","Genre","Feel","Shuffle Songs"],
+    Month:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+    Genre:["band","solo","balad","k-pop","pop","britpop","synthesiser","shoegaze","soundtrack"],
+    Feel:["Happy","Sad","Calm"] // 예시 Feel
+};
+
+let state = { path:["root"], index:0 };
+let currentList = [], currentSongIndex = 0;
+let player;
+
+// renderMenu 함수 (Setting 처리 포함)
+function renderMenu() {
+    const current = state.path[state.path.length-1];
+
+    // Setting 선택 시 userInfo 표시
+    if(current === "Setting") {
+        display.innerHTML = "<ul>" +
+            Object.entries(userInfo).map(([key,val]) =>
+                `<li style="justify-content: space-between;"><span>${key}</span><span>${val}</span></li>`
+            ).join("") + "</ul>";
+        return;
+    }
+
+    const items = menuTree[current];
+
+    // Month 메뉴일 경우 페이징 처리
+    let startIndex = 0, endIndex = items.length;
+    if(current === "Month") {
+        const pageSize = 6; // 한 화면에 6개
+        // 현재 선택된 인덱스에 따라 페이지 결정
+        let page = Math.floor(state.index / pageSize);
+        startIndex = page * pageSize;
+        endIndex = startIndex + pageSize;
+        if(endIndex > items.length) endIndex = items.length;
+    }
+
+    display.innerHTML = "<ul>" +
+        items.slice(startIndex,endIndex).map((m,i) => {
+            // 화면에 보여지는 index 계산
+            const actualIndex = startIndex + i;
+            return `<li class="${actualIndex === state.index ? "active" : ""}">
+                <span>${m}</span><span>▶</span></li>`;
+        }).join("") +
+        "</ul>";
+}
+
+// 현재 선택 항목
+function currentItem(){ 
+    const cur = state.path[state.path.length-1];
+    if(cur in menuTree) return menuTree[cur][state.index];
+    return null;
+}
+
+// 재생 화면
+function playSong(song){
+    player.loadVideoById(song.videoId);
+    display.innerHTML = `
+        <div class="play-container">
+            <img src="${song.image}">
+            <div class="info">${song.info}</div>
+        </div>
+    `;
+}
+
+// YouTube API
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player("youtube-player",{height:"0",width:"0",videoId:"",events:{onStateChange:onPlayerStateChange}});
+}
+function onPlayerStateChange(e){
+    if(e.data===YT.PlayerState.ENDED){
+        currentSongIndex++;
+        if(currentSongIndex<currentList.length){
+            playSong(currentList[currentSongIndex]);
+        } else {
+            state.path = ["root"];
+            state.index = 0;
+            renderMenu();
+        }
+    }
+}
+
+// 버튼 이벤트
+document.getElementById("btn-center").onclick = ()=>{
+    const item = currentItem();
+    const cur = state.path[state.path.length-1];
+
+    if(cur in menuTree){
+        state.path.push(item);
+        state.index=0;
+
+        if(item==="Shuffle Songs"){
+            currentList = [...songs].sort(()=>Math.random()-0.5);
+            currentSongIndex=0;
+            playSong(currentList[currentSongIndex]);
+        } else if(item==="Month" || menuTree[item]) {
+            renderMenu();
+        } else if(item==="Setting") {
+            renderMenu();
+        } else {
+            if(state.path[state.path.length-2]==="Month"){
+                currentList = songs.filter(s=>s.month===item);
+            } else if(state.path[state.path.length-2]==="Genre"){
+                currentList = songs.filter(s=>s.genre===item);
+            }
+            currentSongIndex=0;
+            playSong(currentList[currentSongIndex]);
+        }
+    } else if(currentList.length>0){
+        player.playVideo();
+    }
+};
+
+document.getElementById("btn-menu").onclick = ()=>{
+    if(state.path.length>1){
+        state.path.pop();
+        state.index=0;
+        renderMenu();
+    }
+};
+
+document.getElementById("btn-right").onclick = ()=>{
+    const cur = state.path[state.path.length-1];
+    if(cur in menuTree){
+        state.index++;
+        if(state.index >= menuTree[cur].length){
+            state.index = 0; // 마지막 넘어가면 초기화
+        }
+        renderMenu();
+    } else if(currentList.length>0){
+        currentSongIndex++;
+        if(currentSongIndex>=currentList.length) currentSongIndex=0;
+        playSong(currentList[currentSongIndex]);
+    }
+};
+
+document.getElementById("btn-left").onclick = ()=>{
+    const cur = state.path[state.path.length-1];
+    if(cur in menuTree){
+        state.index--;
+        if(state.index < 0){
+            state.index = menuTree[cur].length-1; // 첫 항목 넘어가면 마지막으로
+        }
+        renderMenu();
+    } else if(currentList.length>0){
+        currentSongIndex--;
+        if(currentSongIndex<0) currentSongIndex=currentList.length-1;
+        playSong(currentList[currentSongIndex]);
+    }
+};
+
+
+document.getElementById("btn-play").onclick = ()=>{
+    if(currentList.length>0) player.playVideo();
+};
+
+// 초기화
+renderMenu();
+</script>
+</body>
+</html>

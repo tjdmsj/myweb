@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" href="ss.ico" type="image/x-icon">
+
+
+  <title>.coffe</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      background: #f9f9f9;
+    }
+
+html, body {
+  height: 100%;
+ overflow-x: auto;
+ overflow-y: hidden;
+}
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(6, 200px);  /* 셀 너비 증가 */
+      grid-auto-rows: 200px;                    /* 셀 높이 증가 */
+      gap: 0;
+      margin: 40px auto;
+      width: fit-content;
+    }
+
+    .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      color: #333;
+      border: 1px solid transparent
+    }
+
+    .vertical {
+      grid-row: span 3;
+      background-color: #f9f9f9;
+    }
+
+    .horizontal {
+      grid-column: span 3;
+    }
+
+    .inner-grid {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);  /* <- 이게 맞는 문법 */
+  height: 100%;
+  width: 100%;
+        border: 1px solid transparent
+}
+
+.inner-item {
+
+        border: 1px solid transparent;
+    position: relative; /* 자식인 .content의 위치 기준 */}
+
+.inner-grid2 {
+    display: grid;
+     grid-template-columns: repeat(3, 1fr);
+      height: 100%;
+  width: 100%;
+        border: 1px solid transparent
+}
+.inner-item2 {
+
+        border: 1px solid transparent;
+    position: relative; /* 자식인 .content의 위치 기준 */}
+.content {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: lighter;
+  color: #333;
+  font-size: 11pt;
+  text-align: right;
+}
+.harvest {
+      position: absolute;  
+      bottom: 0;
+    font-family: 'DM Sans', sans-serif;
+  font-weight: lighter;
+  color: #333;
+  padding: 5px 5px;
+  font-size: 10pt;
+}
+.process {
+  position: absolute;  
+      bottom: 0;
+    font-family: 'DM Sans', sans-serif;
+  font-weight: lighter;
+  color: #333;
+  padding: 5px 5px;
+  font-size: 10pt;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%; 
+}
+p{
+  font-family: 'DM Sans', sans-serif;
+  color: #333;
+   font-size: 11pt;
+}
+.roast {
+  position: absolute;
+  bottom: 0;
+left: 50%;
+  transform: translateX(-50%);  
+  padding: 5px 5px;
+
+}
+
+.inner-item {
+  position: relative;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  z-index: 1;
+}
+.inner-item:nth-child(1) .content:hover {
+  color: blue;
+  transition: color 0.2s ease;
+}
+
+.inner-item:nth-child(2) .content:hover {
+  color: rgb(166, 255, 0);
+  transition: color 0.2s ease;
+}
+.inner-item:nth-child(3) .content:hover {
+  color: rgb(255, 166, 0);
+  transition: color 0.2s ease;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.click {
+  animation: blink 0.5s infinite;
+}
+
+
+.inner-item1 {
+  position: relative;
+}
+.inner-item1 img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 200px;
+}
+
+  </style>
+</head>
+<body>
+    <p class="click">clickclickmore</p>
+  <div class="grid-container">
+
+    <!-- 1번째 세로 1번-->
+<div class="cell vertical" style="grid-column: 1; font-size: 20pt;">
+  <span style="display: inline-block; transform: rotate(-90deg);">.reading <br>coffee</span>
+</div>    <!-- 1번째 세로 2번-->
+    <div class="cell vertical" style="grid-column: 2; background-image: url('25.png'); background-size: cover; background-position: center;">
+        <div class="inner-grid">
+    <div class="inner-item">
+        <div class="content" >커피는 과일이다.<br>잘 익은 커피체리 안의 씨앗,<br>그린빈으로부터 만들어진다.
+</div>
+    </div>
+    <div class="inner-item">
+        <div class="content">커피체리를 수확한다.<br>1 직접 하나씩 손으로 선별<br>2 가지를 한 번에 훑어서<br>3 기계로 수확할 수 있다.
+</div>
+</div>
+    <div class="inner-item">
+        <div class="content">그린빈을 얻는다.<br>과육을 제거하는 다양한 방식이 존재한다. 이 과정은 커피의 맛에 큰 영향을 미친다.
+</div>
+    </div>
+  </div>
+    </div>
+     <!-- 1번째 세로 3번-->
+    <div id="column3"class="cell vertical" style="grid-column: 3; background-image: url('32.png'); background-size: cover; background-position: center; display: none;">
+        <div class="inner-grid">
+    <div class="inner-item1"><img  src="coffee1.png"; /></div>
+    <div class="inner-item1"><img  src="coffee2.png"; /></div>
+    <div class="inner-item1"><img  src="coffee3.png"; /></div>
+  </div>
+    </div>
+     <!-- 1번째 가로 1번-->
+    <div id="row1" class="cell horizontal" style="grid-column: 4 / span 3; grid-row: 1; background-image: url('55.png'); background-size: cover; background-position: center;display: none;">
+        <div class="inner-grid2">
+    <div class="inner-item2" style="margin-top: 5px; margin-left: 5px;">.selective hand picking
+        <div class="harvest">
+잘 익은 체리만 골라 하나씩 손으로 수확한다.
+ 맛의 균일성이 우수하고 품질이 높으나, 노동 집약적이고 비용이 많이 든다.
+주로 워시드(습식) 가공 방식의 원두에 사용하는 방식이다.
+        </div>
+    </div>
+    <div class="inner-item2" style="margin-top: 5px; margin-left: 5px;">.stripping
+    <div class="harvest">
+손으로 가지를 한 번에 쓸어서 모든 체리를 수확하기 때문에 속도가 빠르다. 익은 체리, 덜 익은 체리, 과숙 체리가 혼합되어 품질이 일정하지 않고, 후처리(선별) 공정이 더 복잡해진다. 주로 건식 가공 과정의 원두에 사용한다.
+</div>
+    </div>
+    <div class="inner-item2" style="margin-top: 5px; margin-left: 5px;">.mechanical harvesting
+  <div class="harvest">
+수확기를 이용해 체리를 떨어뜨리는 방식이다. 생산성이 뛰어나 인건비가 높은 지역과 넓은 평지의 대형 농장에서 주로 사용한다. 체리의 익은 정도를 구분하지 못해 혼합 수확 되므로 선별 과정이 필요하다. </div>
+</div>
+  </div>
+    </div>
+    <!-- 1번째 가로 2번-->
+    <div id="row2" class="cell horizontal" style="grid-column: 4 / span 3; grid-row: 2;background-image: url('24.png'); background-size: cover; background-position: center;display: none;">
+        <div class="inner-grid2">
+    <div class="inner-item2" style=" text-align:center"><img src="washed.jpg" style="height: 130px; border-radius: 3%;"/>
+      <div class="process">과육을 완전 제거 후 물로 세척. <br>깨끗하고 투명, 산미가 선명하고 깔끔한 맛
+</div>
+    </div>
+    <div class="inner-item2" style=" text-align:center"><img src="natural.jpg" style="height: 130px; border-radius: 3%;"/>
+      <div class="process">과육 채로 건조 후 제거. <br>과일향, 단맛, 무겁고 강한 향미
+</div>
+    </div>
+    <div class="inner-item2" style=" text-align:center"><img src="honey.jpg" style="height: 130px; border-radius: 3%;"/>
+      <div class="process">껍질 제거 + 점액질 남기기 <br>단맛+산미 균형, 부드러움
+</div>
+    </div>
+  </div>
+    </div>
+     <!-- 1번째 가로 3번-->
+      <p>이렇게 얻은 생두를 로스팅 하면...</p>
+    <div class="cell horizontal" style="grid-column: 4 / span 3; grid-row: 3; background-image: url('44.png'); background-size: cover; background-position: center;display: none;">
+        <div class="inner-grid2">
+    <div class="inner-item2" style=" font-family: 'DM Sans', sans-serif;font-weight: lighter; color: #333; padding: 5px 5px;font-size: 10pt;text-align: center;">
+      <div class="roast" >고유의 맛을 즐기고 싶을 때<br><br>light</div>
+    </div>
+    <div class="inner-item2" style=" font-family: 'DM Sans', sans-serif;
+  font-weight: lighter;
+  color: #333;
+  padding: 5px 5px;
+  font-size: 10pt;
+  text-align: center;" >
+      <div class="roast">밸런스 좋은 커피를 찾을 때<br><br>medium</div>
+    </div>
+    <div class="inner-item2" style=" font-family: 'DM Sans', sans-serif;
+  font-weight: lighter;
+  color: #333;
+  padding: 5px 5px;
+  font-size: 10pt;
+  text-align: center;">
+    <div class="roast">진하고 강한 풍미를 원할 때<br><br>dark</div>
+    </div>
+  </div>
+    </div>
+
+    <!-- 2번째 덩어리
+    <div class="cell horizontal" style="grid-column: 1 / span 3; grid-row: 4;"></div>
+    <div class="cell horizontal" style="grid-column: 1 / span 3; grid-row: 5;"></div>
+    <div class="cell horizontal" style="grid-column: 1 / span 3; grid-row: 6;"></div>
+
+    <div class="cell vertical" style="grid-column: 4; grid-row: 4 / span 3;"></div>
+    <div class="cell vertical" style="grid-column: 5; grid-row: 4 / span 3;"></div>
+    <div class="cell vertical" style="grid-column: 6; grid-row: 4 / span 3;"></div>
+  </div>
+ -->
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const firstItem = document.querySelector('.cell[style*="grid-column: 2"] .inner-item:nth-child(1)');
+  const column3 = document.getElementById("column3");
+  const blinkText = document.querySelector('p.click');
+
+  if (firstItem && column3 && blinkText) {
+    firstItem.addEventListener("click", function () {
+      column3.style.display = "flex";
+      blinkText.classList.remove("click");
+    });
+  }
+});
+
+ document.addEventListener("DOMContentLoaded", function () {
+    const firstItem = document.querySelector('.cell[style*="grid-column: 2"] .inner-item:nth-child(2)');
+    const column3 = document.getElementById("row1");
+
+    if (firstItem && column3) {
+      firstItem.addEventListener("click", function () {
+        column3.style.display = "flex";
+      });
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+  const firstItem = document.querySelector('.cell[style*="grid-column: 2"] .inner-item:nth-child(3)');
+  const column3 = document.getElementById("row2"); // 이게 먼저 보여지는 div
+  const hiddenDiv = document.querySelector('.cell[style*="grid-column: 4"][style*="grid-row: 3"]'); // 10초 뒤 보여질 div
+
+  if (firstItem && column3 && hiddenDiv) {
+    firstItem.addEventListener("click", function () {
+      // 먼저 row2 보여줌
+      column3.style.display = "flex";
+
+      // 10초 후 hiddenDiv 보여줌
+      setTimeout(function () {
+        hiddenDiv.style.display = "flex";
+      }, 2000); // 10000ms = 10초
+    });
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desktop UI</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: url("dot.jpg") no-repeat center/cover; /* 바탕화면 배경 */
+        flex-wrap: wrap;
+        align-content: flex-start;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        overflow-y: hidden;
+    }
+
+   #icons{
+    display: flex;
+    flex-wrap: wrap;
+   }
+
+    /* 아이콘 */
+    .icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80px;
+        margin: 10px;
+        text-decoration: none;
+        color: white;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .icon img {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 5px;
+    }
+
+    .icon span {
+        font-size: 13px;
+        text-align: center;
+        text-shadow: 1px 1px 2px black;
+    }
+
+    .icon:hover {
+        background-color: rgba(255,255,255,0.2);
+        border-radius: 6px;
+    }
+
+     #footer{
+         position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+
+    #footer img{
+        width: 150px;
+    }
+</style>
+</head>
+<body>
+<div id="icons">
+    <!-- 아이콘들 -->
+    <a href="/web cabinet/web/iphone.html" target="rightFrame" class="icon">
+        <img src="bg.png" alt="노트 아이콘">
+        <span>한컷한숨<br>가이드웹</span>
+    </a>
+
+    <a href="/webarchive/coding/coding.html" target="rightFrame" class="icon">
+        <img src="Mac-Terminal.png" alt=" miss Windows XP">
+       
+        <span>coding</span>
+    </a>
+
+    <a href="/webarchive/index.html" target="rightFrame" class="icon">
+        <img src="Zip-Rar.png" alt="웹 보관함 아이콘">
+        <span>웹 보관함</span>
+    </a>
+
+     <a href="/web cabinet/nintendoDS/index.html" target="rightFrame" class="icon">
+        <img src="https://files.softicons.com/download/object-icons/kids-with-toys-icons-by-archigraphs/png/256/Ballgirl_archigraphs.png" alt="노트 아이콘">
+        <span>닌텐도DS</span>
+    </a>
+
+    <a href="/web cabinet/ipod/index.html" target="rightFrame" class="icon">
+        <img src="https://files.softicons.com/download/game-icons/world-of-goo-icons-by-sirubico/png/256x256/MusicEye.png
+" alt="노트 아이콘">
+        <span>ipod</span>
+    </a>
+
+</div>
+<footer id="footer">
+    <img src="https://jspaint.app/images/88x31/collected/bookmark_this_page.gif" alt="pages `S made">
+</footer>
+
+<script>
+    // 아이콘 더블클릭만 동작하도록 처리
+    const icons = document.querySelectorAll(".icon");
+
+    icons.forEach(icon => {
+        // 클릭 막고
+        icon.addEventListener("click", (e) => e.preventDefault());
+        // 더블클릭 시 원래 링크 실행
+        icon.addEventListener("dblclick", () => {
+            window.open(icon.href, icon.target);
+        });
+    });
+</script>
+
+</body>
+</html>
