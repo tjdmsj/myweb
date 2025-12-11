@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>seo handmade tools</title>
+</head>
+<style>
+    @font-face {
+  font-family: 'firstfont';
+  src: url('firstfont.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+   /* 전체 초기화 및 기본 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: firstfont, sans-serif;
+}
+
+/* 레이아웃 컨테이너 (부모 요소) */
+.layout-container {
+    position: relative; /* 자식 요소들을 절대 위치로 지정하기 위한 기준점 */
+    width: 100%;
+    height: 100vh; /* 뷰포트 전체 높이를 사용 */
+    background-color: #f0f0f0; /* 배경색으로 영역 확인 */
+}
+
+/* 1. 좌측 하단 링크드 리스트 영역 */
+.fixed-list-area {
+    position: absolute; /* 절대 위치 지정 */
+    left: 5%;         /* 왼쪽에서 5% 떨어진 위치 */
+    bottom: 5%;       /* 아래쪽에서 5% 떨어진 위치 */
+    width: 200px;     /* 너비 고정 (필요에 따라 vw로 변경 가능) */
+    padding: 10px;
+    /* background-color: rgba(255, 255, 255, 0.8); /* 배경색 (선택 사항) */
+}
+
+.linked-list {
+    list-style: none;
+    padding: 0;
+}
+
+.linked-list li {
+    margin-bottom: 8px;
+}
+
+.linked-list a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.1em;
+}
+
+
+/* 2. 우측 상단 헤더 및 텍스트 영역 */
+.fixed-header-area {
+    position: absolute; /* 절대 위치 지정 */
+    right: 5%;        /* 오른쪽에서 5% 떨어진 위치 */
+    top: 5%;          /* 위쪽에서 5% 떨어진 위치 */
+    width: 300px;     /* 너비 고정 */
+    padding: 10px;
+    /* background-color: rgba(255, 255, 255, 0.8); /* 배경색 (선택 사항) */
+    text-align: right; /* 텍스트를 오른쪽 정렬 */
+}
+
+.page-header h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.page-header h1 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.page-header p {
+    color: #666;
+    line-height: 1.5;
+}
+
+/* 3. 가운데 빈 공간 영역 (영역을 시각적으로 확인하기 위한 스타일) */
+.empty-center-area {
+    width: 100%;
+    height: 100%;
+    /* 배경색 등을 지정하여 가운데 영역의 존재를 시각적으로 나타낼 수 있습니다. */
+    /* background-color: #e8e8e8; */
+}
+</style>
+<body>
+ <div class="layout-container">
+        
+        <div class="fixed-list-area">
+            <ul class="linked-list">
+                <li><a href="texticon.html" target="rightFrame">tool #1</a></li>
+                <li><a href="#section2">두 번째 링크</a></li>
+                <li><a href="#section3">세 번째 링크</a></li>
+                <li><a href="#section4">네 번째 링크</a></li>
+                <li><a href="#section5">다섯 번째 링크</a></li>
+            </ul>
+        </div>
+
+        <div class="fixed-header-area">
+            <header class="page-header">
+                <h1><a href="./index.html">Handmade tools</a></h1>
+                <p style="background-color: #007bff;color: #ffffff; padding: 5px;">Seoeun + AI Collaborative Tool Cabinet</p>
+            </header>
+        </div>
+
+        <div class="empty-center-area">
+             </div>
+    </div>
+</body>
+</html>

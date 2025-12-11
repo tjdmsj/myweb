@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>text-icons</title>
+    
+    <style>
+        /* 전체 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ @font-face {
+  font-family: 'firstfont';
+  src: url('firstfont.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: white; /* 흰 배경 */
+            font-family: firstfont, sans-serif;
+        }
+::selection {
+  background: #ffcc00; /* 선택 배경색 */
+  color: #000;         /* 선택 글자색 */
+}
+        /* 그리드 컨테이너 설정 */
+        .grid-container {
+            display: grid;
+            
+            /* 반응형 컬럼 설정: 최소 100px 크기를 유지하며 화면 너비에 따라 컬럼 수가 자동으로 조절됩니다. */
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            
+            width: 100%; 
+            /* 내부 선이 외부로 나가는 것을 숨겨서 깔끔하게 외부 테두리가 없는 것처럼 보이게 합니다. */
+            overflow: hidden; 
+        }
+
+        /* 그리드 항목 스타일 */
+        .grid-item {
+            /* 1. 정사각형 비율 설정 (가장 중요) */
+            aspect-ratio: 1 / 1; 
+
+            /* 2. 내부 선 설정: 오른쪽과 아래쪽에만 핑크색 선을 그립니다. */
+            border-right: 1px solid #ff69b4; /* 핑크색 */
+            border-bottom: 1px solid #ff69b4;
+            
+            /* 3. 텍스트 중앙 배치 */
+            display: flex;
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center;     /* 수직 중앙 정렬 */
+            padding: 10px;
+            text-align: center;
+            font-size: 1em;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grid-container">
+        <div class="grid-item">✣</div>
+        <div class="grid-item">✴︎ ☆ ★</div>
+        <div class="grid-item">↑ ↓<br>← →</div>
+        <div class="grid-item">↖ ↗<br>↘ ↙</div>
+        <div class="grid-item">✓</div>
+        <div class="grid-item">•</div>
+        <div class="grid-item">※</div>
+        <div class="grid-item">☐ ☑</div>
+        <div class="grid-item"></div>
+        <div class="grid-item">Go-To Icons</div>
+        <div class="grid-item">copy and paste!</div>
+        <div class="grid-item">아이템 12</div>
+        <div class="grid-item">아이템 13</div>
+        <div class="grid-item">아이템 14</div>
+        <div class="grid-item">아이템 15</div>
+        <div class="grid-item">아이템 16</div>
+    </div>
+
+</body>
+</html>
