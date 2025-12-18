@@ -5,130 +5,141 @@
     <title>전시 적층(Layers) - 인터랙티브 도면</title>
     <style>
         :root {
-            --individual-color: rgba(0, 255, 255, 0.4); /* 개인작: 민트색 계열 */
-            --duo-color: rgba(255, 255, 0, 0.4);       /* 2인 협업: 노란색 계열 */
-            --trio-color: rgba(255, 0, 255, 0.4);      /* 공동작: 보라색 계열 */
+            /* 호버 시 채워질 색상 (투명도 조절 가능) */
+            --individual-fill: rgba(0, 255, 255, 0.5); /* 민트 */
+            --duo-fill: rgba(255, 255, 0, 0.5);        /* 노랑 */
+            --trio-fill: rgba(255, 0, 255, 0.5);       /* 보라 */
+            --border-color: #000000; /* 평소 선 색상 */
         }
 
         body {
-            background-color: #f5f5f5;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Pretendard', sans-serif;
+            font-family: 'Pretendard', -apple-system, sans-serif;
             margin: 0; padding: 40px;
         }
 
-        .header { text-align: left; width: 100%; max-width: 800px; margin-bottom: 20px; }
-        h1 { margin: 0; font-size: 2.5rem; }
-        p { color: #666; }
+        .header { text-align: left; width: 100%; max-width: 900px; margin-bottom: 30px; }
+        h1 { margin: 0; font-size: 2rem; font-weight: 700; letter-spacing: -0.05rem; }
 
         /* 도면 컨테이너 */
         .floorplan-container {
             position: relative;
-            width: 800px; /* 도면 이미지 크기에 맞춰 조정 */
-            height: 800px;
-            background: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 900px; /* 도면의 실제 가로 세로 비율에 맞춰 조절하세요 */
+            height: 900px; 
+            border: 1px solid #eee;
         }
 
         .floorplan-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            /* 여기에 실제 도면 이미지 파일명을 넣으세요 */
-            background-image: url('도면이미지파일경로.jpg'); 
-            background-size: cover;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            /* 실제 도면 이미지 경로를 넣으세요 */
+            background-image: url('your-floorplan-image.jpg'); 
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
-        /* 호버 감지 영역 (Hotspots) */
+        /* 작품 구획 (정적 상태) */
         .spot {
             position: absolute;
+            z-index: 2;
             cursor: pointer;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border-color); /* 검정색 1px 실선 */
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            color: transparent;
-            border: 1px solid transparent;
+            font-size: 11px;
+            color: #000;
+            background-color: transparent; /* 평소엔 투명 */
         }
 
-        /* 호버 시 같은 그룹 전체 하이라이트 */
-        .spot.highlight-individual { background-color: var(--individual-color); border: 1px solid cyan; color: #000; }
-        .spot.highlight-duo { background-color: var(--duo-color); border: 1px solid gold; color: #000; }
-        .spot.highlight-trio { background-color: var(--trio-color); border: 1px solid magenta; color: #000; }
+        /* 호버 시 그룹별 하이라이트 클래스 (JS로 제어) */
+        .spot.active-individual { background-color: var(--individual-fill); border-color: cyan; }
+        .spot.active-duo { background-color: var(--duo-fill); border-color: gold; }
+        .spot.active-trio { background-color: var(--trio-fill); border-color: magenta; }
 
-        /* 위치 예시 (도면에 맞춰 %값 수정 필요) */
-        /* 개인작 3개 */
-        .ind-1 { top: 20%; left: 35%; width: 10%; height: 20%; }
-        .ind-2 { top: 50%; left: 10%; width: 12%; height: 30%; }
-        .ind-3 { top: 60%; left: 80%; width: 10%; height: 30%; }
+        /* --------------------------------------------------
+           [수정 가이드] 여기서 좌표와 크기를 직접 수정하세요!
+           top(위에서 거리), left(왼쪽에서 거리), width(가로), height(세로)
+           모두 % 단위이므로 도면 크기가 바뀌어도 비율이 유지됩니다.
+        -------------------------------------------------- */
 
-        /* 2인 협업작 3개 */
-        .duo-1 { top: 15%; left: 55%; width: 15%; height: 25%; }
-        .duo-2 { top: 40%; left: 45%; width: 15%; height: 25%; }
-        .duo-3 { top: 35%; left: 75%; width: 15%; height: 20%; }
+        /* 개인작 (Individual) */
+        .ind-1 { top: 20%; left: 33%; width: 8%; height: 18%; }
+        .ind-2 { top: 48%; left: 12%; width: 10%; height: 25%; }
+        .ind-3 { top: 55%; left: 82%; width: 9%; height: 28%; }
 
-        /* 3인 공동작 1개 */
-        .trio-1 { top: 45%; left: 40%; width: 30%; height: 30%; }
+        /* 2인 협업작 (Duo) */
+        .duo-1 { top: 18%; left: 52%; width: 12%; height: 22%; }
+        .duo-2 { top: 38%; left: 48%; width: 14%; height: 20%; }
+        .duo-3 { top: 32%; left: 78%; width: 13%; height: 18%; }
 
-        /* 하단 캡션 */
-        .caption {
-            margin-top: 30px;
+        /* 3인 공동작 (Trio) */
+        .trio-1 { top: 42%; left: 42%; width: 25%; height: 25%; }
+
+        /* -------------------------------------------------- */
+
+        .legend {
+            margin-top: 40px;
             display: flex;
-            gap: 20px;
+            gap: 30px;
+            border-top: 1px solid #000;
+            padding-top: 20px;
         }
-        .cap-item { display: flex; align-items: center; gap: 8px; font-size: 14px; }
-        .dot { width: 12px; height: 12px; border-radius: 2px; }
+        .leg-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+        .box { width: 15px; height: 15px; border: 1px solid #000; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>적층 (Layers)</h1>
-        <p>Layers of Existence: 도면 위의 작품을 호버하여 층위를 확인하세요.</p>
+        <h1>적층 (Layers): EXHIBITION FLOORPLAN</h1>
     </div>
 
     <div class="floorplan-container">
         <div class="floorplan-img"></div>
 
-        <div class="spot ind-1" data-group="individual">개인 1</div>
-        <div class="spot ind-2" data-group="individual">개인 2</div>
-        <div class="spot ind-3" data-group="individual">개인 3</div>
+        <div class="spot ind-1" data-group="individual">1</div>
+        <div class="spot ind-2" data-group="individual">1</div>
+        <div class="spot ind-3" data-group="individual">1</div>
 
-        <div class="spot duo-1" data-group="duo">2인 A</div>
-        <div class="spot duo-2" data-group="duo">2인 B</div>
-        <div class="spot duo-3" data-group="duo">2인 C</div>
+        <div class="spot duo-1" data-group="duo">2</div>
+        <div class="spot duo-2" data-group="duo">2</div>
+        <div class="spot duo-3" data-group="duo">2</div>
 
-        <div class="spot trio-1" data-group="trio">공동 퍼포먼스</div>
+        <div class="spot trio-1" data-group="trio">3</div>
     </div>
 
-    <div class="caption">
-        <div class="cap-item"><div class="dot" style="background: cyan;"></div> 개인작 (Individual)</div>
-        <div class="cap-item"><div class="dot" style="background: gold;"></div> 2인 협업 (Collaboration)</div>
-        <div class="cap-item"><div class="dot" style="background: magenta;"></div> 3인 공동 (Collective)</div>
+    <div class="legend">
+        <div class="leg-item"><div class="box" style="background: var(--individual-fill);"></div> 개인작</div>
+        <div class="leg-item"><div class="box" style="background: var(--duo-fill);"></div> 2인 협업작</div>
+        <div class="leg-item"><div class="box" style="background: var(--trio-fill);"></div> 3인 공동작</div>
     </div>
 
     <script>
         const spots = document.querySelectorAll('.spot');
 
         spots.forEach(spot => {
+            const group = spot.getAttribute('data-group');
+
             spot.addEventListener('mouseenter', () => {
-                const group = spot.getAttribute('data-group');
-                // 같은 그룹 전체에 클래스 추가
+                // 같은 그룹명을 가진 모든 요소를 찾아 하이라이트 클래스 추가
                 document.querySelectorAll(`[data-group="${group}"]`).forEach(el => {
-                    el.classList.add(`highlight-${group}`);
+                    el.classList.add(`active-${group}`);
                 });
             });
 
             spot.addEventListener('mouseleave', () => {
-                const group = spot.getAttribute('data-group');
-                // 같은 그룹 전체에서 클래스 제거
+                // 하이라이트 클래스 제거
                 document.querySelectorAll(`[data-group="${group}"]`).forEach(el => {
-                    el.classList.remove(`highlight-${group}`);
+                    el.classList.remove(`active-${group}`);
                 });
             });
         });
